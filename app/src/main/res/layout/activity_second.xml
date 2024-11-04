@@ -47,7 +47,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/cost"
-                android:textSize="26sp"
+                android:textSize="22sp"
+                tools:ignore="Autofill,TextFields" />
+
+            <EditText
+                android:id="@+id/descriptionET"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description"
+                android:textSize="22sp"
                 tools:ignore="Autofill,TextFields" />
 
         </LinearLayout>

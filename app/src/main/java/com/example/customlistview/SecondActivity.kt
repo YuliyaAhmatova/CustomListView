@@ -28,6 +28,7 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var toolbarSA:Toolbar
     private lateinit var listViewLV: ListView
     private lateinit var addBTN: Button
+    private lateinit var descriptionET:EditText
     private lateinit var costET: EditText
     private lateinit var nameET: EditText
     private lateinit var editImageIV: ImageView
@@ -81,14 +82,16 @@ class SecondActivity : AppCompatActivity() {
     private fun createProduct(): Product {
         val name = nameET.text.toString()
         val cost = costET.text.toString()
+        val description = descriptionET.text.toString()
         val image = bitmap
-        val product = Product(name, cost, image)
+        val product = Product(name, cost, description, image)
         return product
     }
 
     private fun clearEditFields() {
         nameET.text.clear()
         costET.text.clear()
+        descriptionET.text.clear()
         editImageIV.setImageResource(R.drawable.ic_shop)
     }
 
@@ -96,6 +99,7 @@ class SecondActivity : AppCompatActivity() {
         toolbarSA = findViewById(R.id.toolbarSA)
         listViewLV = findViewById(R.id.listViewLV)
         addBTN = findViewById(R.id.addBTN)
+        descriptionET = findViewById(R.id.descriptionET)
         costET = findViewById(R.id.costET)
         nameET = findViewById(R.id.nameET)
         editImageIV = findViewById(R.id.editImageIV)
