@@ -18,13 +18,14 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import java.io.IOException
 
+@Suppress("DEPRECATED_IDENTITY_EQUALS")
 class SecondActivity : AppCompatActivity() {
 
     private val GALARY_REQUEST = 302
     var bitmap: Bitmap? = null
     var products: MutableList<Product> = mutableListOf()
 
-    private lateinit var exitBTN: Button
+    private lateinit var toolbarSA:Toolbar
     private lateinit var listViewLV: ListView
     private lateinit var addBTN: Button
     private lateinit var costET: EditText
@@ -43,9 +44,8 @@ class SecondActivity : AppCompatActivity() {
 
         init()
 
-        exitBTN.setOnClickListener {
-            finish()
-        }
+        setSupportActionBar(toolbarSA)
+        title = ""
 
         editImageIV.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
@@ -65,6 +65,19 @@ class SecondActivity : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_sa, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId){
+            R.id.exitSAMenu -> finish()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun createProduct(): Product {
         val name = nameET.text.toString()
         val cost = costET.text.toString()
@@ -80,7 +93,7 @@ class SecondActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        exitBTN = findViewById(R.id.exitBTN)
+        toolbarSA = findViewById(R.id.toolbarSA)
         listViewLV = findViewById(R.id.listViewLV)
         addBTN = findViewById(R.id.addBTN)
         costET = findViewById(R.id.costET)
