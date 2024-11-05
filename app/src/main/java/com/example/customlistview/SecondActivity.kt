@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ListView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -77,6 +78,17 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
             }
     }
 
+    override fun onResume() {
+        super.onResume()
+        check = intent.extras?.getBoolean("newCheck") ?: true
+        if (!check){
+            products = intent.getSerializableExtra("list") as MutableList<Product>
+            listAdapter = ListAdapter(this, products)
+            check = true
+        }
+        listViewLV.adapter = listAdapter
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_sa, menu)
         return super.onCreateOptionsMenu(menu)
@@ -85,7 +97,14 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.exitSAMenu -> finish()
+            R.id.exitSAMenu -> {
+                finish()
+                Toast.makeText(
+                    applicationContext,
+                    "Программа завершена",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -136,7 +155,10 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
 
     override fun update(product: Product) {
         val intent = Intent(this, ThirdActivity::class.java)
-        intent.putExtra(Product::class.java.simpleName, product)
+        intent.putExtra("product", product)
+        intent.putExtra("products", this.products as ArrayList<Product>)
+        intent.putExtra("position", item)
+        intent.putExtra("check", check)
         startActivity(intent)
     }
 }

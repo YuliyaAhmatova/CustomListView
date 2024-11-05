@@ -15,39 +15,56 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageViewTAIV"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:layout_gravity="center"
-        android:layout_margin="10dp"
+        android:layout_margin="5dp"
         android:src="@drawable/ic_shop" />
 
-    <TextView
-        android:id="@+id/nameTATV"
+    <EditText
+        android:id="@+id/nameTAET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:autofillHints=""
         android:hint="@string/name"
         android:textColor="@color/black"
         android:textSize="32sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="TextFields" />
 
-    <TextView
-        android:id="@+id/costTATV"
+    <EditText
+        android:id="@+id/costTAET"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
+        android:autofillHints=""
         android:hint="@string/cost"
         android:textColor="@color/black"
         android:textSize="32sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:ignore="TextFields" />
 
-    <TextView
-        android:id="@+id/descriptionTATV"
-        android:layout_width="match_parent"
+    <EditText
+        android:id="@+id/descriptionTAET"
+        android:layout_width="wrap_content"
+        android:gravity="center"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        android:layout_margin="5dp"
         android:hint="@string/description"
         android:textSize="32sp"
         tools:ignore="Autofill,TextFields" />
 
+    <Button
+        android:id="@+id/saveBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/save"
+        android:textSize="32sp"/>
 </LinearLayout>

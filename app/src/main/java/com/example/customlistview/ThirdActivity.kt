@@ -1,12 +1,15 @@
 package com.example.customlistview
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,13 +18,15 @@ import androidx.core.view.WindowInsetsCompat
 
 class ThirdActivity : AppCompatActivity() {
 
-    private var product: Product? = null
+    private val GALARY_REQUEST = 1
+    private var photoUriTwo: Uri? = null
 
     private lateinit var toolbarTA:Toolbar
     private lateinit var imageViewTAIV:ImageView
-    private lateinit var nameTATV:TextView
-    private lateinit var costTATV:TextView
-    private lateinit var descriptionTATV:TextView
+    private lateinit var nameTAET:TextView
+    private lateinit var costTAET:TextView
+    private lateinit var descriptionTAET:TextView
+    private lateinit var saveBTN:Button
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,25 +39,75 @@ class ThirdActivity : AppCompatActivity() {
             insets
         }
 
-        toolbarTA=findViewById(R.id.toolbarTA)
-        imageViewTAIV= findViewById(R.id.imageViewTAIV)
-        nameTATV = findViewById(R.id.nameTATV)
-        costTATV = findViewById(R.id.costTATV)
-        descriptionTATV = findViewById(R.id.descriptionTATV)
+        init()
 
         setSupportActionBar(toolbarTA)
         title = ""
 
-        product = intent.extras?.getSerializable(Product::class.java.simpleName) as Product?
+        val product:Product = intent.extras?.getSerializable("product") as Product
+        val products = intent.getSerializableExtra("products")
+        val item = intent.extras?.getInt("position")
+        var check = intent.extras?.getBoolean("check")
 
-        val name: String = product?.name.toString()
-        val cost: String = product?.cost.toString()
-        val description: String = product?.description.toString()
+        val name = product.name
+        val cost = product.cost
+        val description = product.description
+        val image:Uri? = Uri.parse(product.image)
 
-        nameTATV.text = "$name"
-        costTATV.text = "$cost"
-        descriptionTATV.text = "$description"
-        imageViewTAIV.setImageURI(Uri.parse(product?.image))
+        nameTAET.setText(name)
+        costTAET.setText(cost)
+        descriptionTAET.setText(description)
+        imageViewTAIV.setImageURI(image)
+
+        imageViewTAIV.setOnClickListener {
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            startActivityForResult(photoPickerIntent, GALARY_REQUEST)
+        }
+
+        saveBTN.setOnClickListener {
+            val product = Product(
+                nameTAET.text.toString(),
+                costTAET.text.toString(),
+                descriptionTAET.text.toString(),
+                photoUriTwo.toString()
+            )
+            val list: MutableList<Product> = products as MutableList<Product>
+            if (item != null){
+                swap(item, product, products)
+            }
+            check = false
+            val  intent = Intent(this, SecondActivity::class.java)
+            intent.putExtra("list", list as ArrayList<Product>)
+            intent.putExtra("newCheck", check)
+            startActivity(intent)
+            finish()
+        }
+    }
+
+    private fun init() {
+        toolbarTA = findViewById(R.id.toolbarTA)
+        imageViewTAIV = findViewById(R.id.imageViewTAIV)
+        nameTAET = findViewById(R.id.nameTAET)
+        costTAET = findViewById(R.id.costTAET)
+        descriptionTAET = findViewById(R.id.descriptionTAET)
+        saveBTN = findViewById(R.id.saveBTN)
+    }
+
+    fun swap(item: Int, product: Product, products:MutableList<Product>) {
+        products.add(item+ 1, product)
+        products.removeAt(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        imageViewTAIV = findViewById(R.id.imageViewTAIV)
+        when (requestCode) {
+            GALARY_REQUEST -> if (resultCode === RESULT_OK) {
+                photoUriTwo = data?.data
+                imageViewTAIV.setImageURI(photoUriTwo)
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -63,7 +118,36 @@ class ThirdActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
         when(item.itemId){
-            R.id.exitTAMenu -> finish()
+            R.id.exitTAMenu -> {
+                finishAffinity()
+                Toast.makeText(
+                        applicationContext,
+                "Программа завершена",
+                Toast.LENGTH_LONG
+                ).show()
+            }
+
+            R.id.backTAMenu -> {
+                val products = intent.getSerializableExtra("products")
+                val item = intent.extras?.getInt("position")
+                var check = intent.extras?.getBoolean("check")
+                val product = Product(
+                    nameTAET.text.toString(),
+                    costTAET.text.toString(),
+                    descriptionTAET.text.toString(),
+                    photoUriTwo.toString()
+                )
+                val list: MutableList<Product> = products as MutableList<Product>
+                if (item != null){
+                    swap(item, product, products)
+                }
+                check = false
+                val  intent = Intent(this, SecondActivity::class.java)
+                intent.putExtra("list", list as ArrayList<Product>)
+                intent.putExtra("newCheck", check)
+                startActivity(intent)
+                finish()
+            }
         }
         return super.onOptionsItemSelected(item)
     }
