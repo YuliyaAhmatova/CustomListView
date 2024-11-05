@@ -19,7 +19,7 @@ class MyAlertDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val product = requireArguments().getSerializable("person")
+        val product = requireArguments().getSerializable("product")
         val builder = AlertDialog.Builder(
             requireActivity()
         )
@@ -29,7 +29,7 @@ class MyAlertDialog : DialogFragment() {
             .setPositiveButton("Удалить"){dialog, which ->
                 removable?.remove(product as Product)
             }
-            .setNeutralButton("Редактировать"){dialog, which ->
+            .setNeutralButton("Посмотреть описание"){dialog, which ->
                 updatable?.update(product as Product)
             }
             .setNegativeButton("Отмена", null)

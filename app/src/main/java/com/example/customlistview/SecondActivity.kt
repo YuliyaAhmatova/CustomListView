@@ -139,10 +139,7 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
 
     override fun update(product: Product) {
        val intent = Intent(this, ThirdActivity::class.java)
-        intent.putExtra("product", product)
-        intent.putExtra("products", this.products as ArrayList<Product>)
-        intent.putExtra("position", item)
-        intent.putExtra("check", check)
+        intent.putExtra(Product::class.java.simpleName, product)
         startActivity(intent)
     }
 }

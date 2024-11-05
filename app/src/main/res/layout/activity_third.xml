@@ -14,7 +14,7 @@
         android:background="@color/purple" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageViewIV"
+        android:id="@+id/imageViewTAIV"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_gravity="center"
@@ -22,7 +22,7 @@
         android:src="@drawable/ic_shop" />
 
     <TextView
-        android:id="@+id/nameTV"
+        android:id="@+id/nameTATV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -32,7 +32,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/costTV"
+        android:id="@+id/costTATV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -42,7 +42,7 @@
         android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/descriptionTV"
+        android:id="@+id/descriptionTATV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
