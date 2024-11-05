@@ -1,6 +1,7 @@
 package com.example.customlistview
 
 import android.content.Context
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +22,7 @@ class ListAdapter(context: Context, personList: MutableList<Product>):
         val nameTV = view?.findViewById<TextView>(R.id.nameTV)
         val costTV = view?.findViewById<TextView>(R.id.costTV)
 
-        imageViewIV?.setImageBitmap(product?.image)
+        imageViewIV?.setImageURI(Uri.parse(product?.image))
         nameTV?.text = product?.name
         costTV?.text = product?.cost
         return view!!

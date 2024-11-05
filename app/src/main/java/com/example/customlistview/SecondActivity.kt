@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.AdapterView
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -19,11 +20,16 @@ import androidx.core.view.WindowInsetsCompat
 import java.io.IOException
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
-class SecondActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity(), Removable, Updatable {
 
-    private val GALARY_REQUEST = 302
-    var bitmap: Bitmap? = null
-    var products: MutableList<Product> = mutableListOf()
+    var product:Product?=null
+
+    private val GALARY_REQUEST = 1
+    var listAdapter:ListAdapter? = null
+    private var products: MutableList<Product> = mutableListOf()
+    private var photoUri:Uri? = null
+    var item: Int? = null
+    var check = true
 
     private lateinit var toolbarSA:Toolbar
     private lateinit var listViewLV: ListView
@@ -55,15 +61,23 @@ class SecondActivity : AppCompatActivity() {
         }
 
         addBTN.setOnClickListener {
-            val product = createProduct()
-            products.add(product)
+            createProduct()
 
-            val listAdapter = ListAdapter(this@SecondActivity, products)
+            listAdapter = ListAdapter(this@SecondActivity, products)
             listViewLV.adapter = listAdapter
-            listAdapter.notifyDataSetChanged()
+            listAdapter?.notifyDataSetChanged()
             clearEditFields()
         }
-
+        listViewLV.onItemClickListener =
+            AdapterView.OnItemClickListener{parent, view, position, id ->
+                val product = listAdapter!!.getItem(position)
+                item = position
+                val dialog = MyAlertDialog()
+                val args = Bundle()
+                args.putSerializable("product", product)
+                dialog.arguments = args
+                dialog.show(supportFragmentManager, "custom")
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -79,13 +93,15 @@ class SecondActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
-    private fun createProduct(): Product {
+    private fun createProduct() {
         val name = nameET.text.toString()
         val cost = costET.text.toString()
         val description = descriptionET.text.toString()
-        val image = bitmap
+        val image = photoUri.toString()
         val product = Product(name, cost, description, image)
-        return product
+        products.add(product)
+        clearEditFields()
+        photoUri =null
     }
 
     private fun clearEditFields() {
@@ -111,14 +127,22 @@ class SecondActivity : AppCompatActivity() {
         editImageIV = findViewById(R.id.editImageIV)
         when (requestCode) {
             GALARY_REQUEST -> if (resultCode === RESULT_OK) {
-                val selectedImage: Uri? = data?.data
-                try {
-                    bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImage)
-                } catch (e: IOException) {
-                    e.printStackTrace()
-                }
-                editImageIV.setImageBitmap(bitmap)
+                photoUri = data?.data
+                editImageIV.setImageURI(photoUri)
             }
         }
+    }
+
+    override fun remove(product: Product) {
+        listAdapter?.remove(product!!)
+    }
+
+    override fun update(product: Product) {
+       val intent = Intent(this, ThirdActivity::class.java)
+        intent.putExtra("product", product)
+        intent.putExtra("products", this.products as ArrayList<Product>)
+        intent.putExtra("position", item)
+        intent.putExtra("check", check)
+        startActivity(intent)
     }
 }
