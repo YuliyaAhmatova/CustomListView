@@ -26,10 +26,10 @@ class MyAlertDialog : DialogFragment() {
         return builder
             .setTitle("Внимание!")
             .setMessage("Предполагаемые действия")
-            .setPositiveButton("Удалить") { dialog, which ->
+            .setPositiveButton("Удалить") { _, _ ->
                 removable?.remove(product as Product)
             }
-            .setNeutralButton("Редактировать") { dialog, which ->
+            .setNeutralButton("Редактировать") { _, _ ->
                 updatable?.update(product as Product)
             }
             .setNegativeButton("Отмена", null)

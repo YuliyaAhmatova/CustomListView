@@ -20,14 +20,12 @@ import androidx.core.view.WindowInsetsCompat
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 class SecondActivity : AppCompatActivity(), Removable, Updatable {
 
-    var product: Product? = null
-
     private val GALARY_REQUEST = 1
-    var listAdapter: ListAdapter? = null
+    private var listAdapter: ListAdapter? = null
     private var products: MutableList<Product> = mutableListOf()
     private var photoUri: Uri? = null
-    var item: Int? = null
-    var check = true
+    private var item: Int? = null
+    private var check = true
 
     private lateinit var toolbarSA: Toolbar
     private lateinit var listViewLV: ListView
@@ -81,7 +79,7 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
     override fun onResume() {
         super.onResume()
         check = intent.extras?.getBoolean("newCheck") ?: true
-        if (!check){
+        if (!check) {
             products = intent.getSerializableExtra("list") as MutableList<Product>
             listAdapter = ListAdapter(this, products)
             check = true
