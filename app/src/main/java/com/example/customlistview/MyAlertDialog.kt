@@ -8,8 +8,8 @@ import androidx.fragment.app.DialogFragment
 
 class MyAlertDialog : DialogFragment() {
 
-    private var removable:Removable? = null
-    private var updatable:Updatable? = null
+    private var removable: Removable? = null
+    private var updatable: Updatable? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -26,10 +26,10 @@ class MyAlertDialog : DialogFragment() {
         return builder
             .setTitle("Внимание!")
             .setMessage("Предполагаемые действия")
-            .setPositiveButton("Удалить"){dialog, which ->
+            .setPositiveButton("Удалить") { dialog, which ->
                 removable?.remove(product as Product)
             }
-            .setNeutralButton("Посмотреть описание"){dialog, which ->
+            .setNeutralButton("Посмотреть описание") { dialog, which ->
                 updatable?.update(product as Product)
             }
             .setNegativeButton("Отмена", null)

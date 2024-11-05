@@ -9,14 +9,14 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 
-class ListAdapter(context: Context, personList: MutableList<Product>):
+class ListAdapter(context: Context, personList: MutableList<Product>) :
     ArrayAdapter<Product>(context, R.layout.list_item, personList) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
         val product = getItem(position)
-        if (view==null){
-            view = LayoutInflater.from(context).inflate(R.layout.list_item, parent,false)
+        if (view == null) {
+            view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
         }
         val imageViewIV = view?.findViewById<ImageView>(R.id.imageViewIV)
         val nameTV = view?.findViewById<TextView>(R.id.nameTV)

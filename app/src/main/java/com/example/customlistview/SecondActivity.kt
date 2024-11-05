@@ -1,10 +1,8 @@
 package com.example.customlistview
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.AdapterView
@@ -17,24 +15,23 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import java.io.IOException
 
 @Suppress("DEPRECATED_IDENTITY_EQUALS")
 class SecondActivity : AppCompatActivity(), Removable, Updatable {
 
-    var product:Product?=null
+    var product: Product? = null
 
     private val GALARY_REQUEST = 1
-    var listAdapter:ListAdapter? = null
+    var listAdapter: ListAdapter? = null
     private var products: MutableList<Product> = mutableListOf()
-    private var photoUri:Uri? = null
+    private var photoUri: Uri? = null
     var item: Int? = null
     var check = true
 
-    private lateinit var toolbarSA:Toolbar
+    private lateinit var toolbarSA: Toolbar
     private lateinit var listViewLV: ListView
     private lateinit var addBTN: Button
-    private lateinit var descriptionET:EditText
+    private lateinit var descriptionET: EditText
     private lateinit var costET: EditText
     private lateinit var nameET: EditText
     private lateinit var editImageIV: ImageView
@@ -69,7 +66,7 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
             clearEditFields()
         }
         listViewLV.onItemClickListener =
-            AdapterView.OnItemClickListener{parent, view, position, id ->
+            AdapterView.OnItemClickListener { parent, view, position, id ->
                 val product = listAdapter!!.getItem(position)
                 item = position
                 val dialog = MyAlertDialog()
@@ -87,7 +84,7 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        when(item.itemId){
+        when (item.itemId) {
             R.id.exitSAMenu -> finish()
         }
         return super.onOptionsItemSelected(item)
@@ -101,7 +98,7 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
         val product = Product(name, cost, description, image)
         products.add(product)
         clearEditFields()
-        photoUri =null
+        photoUri = null
     }
 
     private fun clearEditFields() {
@@ -138,7 +135,7 @@ class SecondActivity : AppCompatActivity(), Removable, Updatable {
     }
 
     override fun update(product: Product) {
-       val intent = Intent(this, ThirdActivity::class.java)
+        val intent = Intent(this, ThirdActivity::class.java)
         intent.putExtra(Product::class.java.simpleName, product)
         startActivity(intent)
     }
